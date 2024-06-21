@@ -1,0 +1,24 @@
+version: '3.8'
+
+networks:
+  app_network:
+    driver: bridge
+
+services:
+ grafana:
+   image: grafana/grafana
+   user: root
+   restart: always
+   ports:
+     - 3000:3000
+   volumes:
+     - ./grafana:/var/lib/grafana
+     - ./grafana/provisioning/:/etc/grafana/provisioning/
+   container_name: grafana
+   hostname: grafana
+   environment:
+     TZ: "Europe/Moscow"
+     GF_SECURITY_ALLOW_EMBEDDING: "true"
+     GF_AUTH_ANONYMOUS_ENABLED: "true"
+   networks:
+     - app_network
