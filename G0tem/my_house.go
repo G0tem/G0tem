@@ -1,5 +1,6 @@
 package g0tem
 
-func MyHouse() {
-	println("I am in my house")
+// MyHouse returns "YES"
+func MyHouse() string {
+	return "YES"
 }
