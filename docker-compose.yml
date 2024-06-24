@@ -20,5 +20,8 @@ services:
      TZ: "Europe/Moscow"
      GF_SECURITY_ALLOW_EMBEDDING: "true"
      GF_AUTH_ANONYMOUS_ENABLED: "true"
+     GF_SERVER_ROOT_URL: "http://87.242.100.111:3000"
+     GF_SERVER_DOMAIN: 87.242.100.111
+     GF_SERVER_SERVE_FROM_SUB_PATH: "true"
    networks:
      - app_network
