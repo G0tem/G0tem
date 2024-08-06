@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	g0tem "github.com/G0tem/G0tem/G0tem"
+	bot "github.com/G0tem/G0tem/bot"
 	"github.com/gin-gonic/gin"
 )
 
@@ -25,6 +26,7 @@ var albums = []album{
 
 func main() {
 	fmt.Println(g0tem.MyHouse())
+	bot.RunBot()
 	router := gin.Default()
 	router.GET("/albums", getAlbums)
 	router.GET("/albums/:id", getAlbumByID)
