@@ -7,7 +7,7 @@ import (
 )
 
 func TestMyHouse(t *testing.T) {
-	if g0tem.MyHouse() != "YES" {
+	if g0tem.MyHouse() != "YES!" {
 		t.Fail()
 	}
 }
