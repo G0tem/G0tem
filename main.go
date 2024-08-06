@@ -1,8 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
+	g0tem "github.com/G0tem/G0tem/G0tem"
 	"github.com/gin-gonic/gin"
 )
 
@@ -22,6 +24,7 @@ var albums = []album{
 }
 
 func main() {
+	fmt.Println(g0tem.MyHouse())
 	router := gin.Default()
 	router.GET("/albums", getAlbums)
 	router.GET("/albums/:id", getAlbumByID)
@@ -65,8 +68,3 @@ func getAlbumByID(c *gin.Context) {
 	}
 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "album not found"})
 }
-
-//______________________________________________________________________________
-// func main() {
-// 	fmt.Println(g0tem.MyHouse())
-// }
