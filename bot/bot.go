@@ -22,7 +22,7 @@ func RunBot() {
 
 	bot.Debug = true
 
-	log.Printf("Авторизован на аккаунте %s", bot.Self.UserName)
+	log.Printf("Авторизован на аккаунте успешный запуск! %s", bot.Self.UserName)
 
 	u := tgbotapi.NewUpdate(0)
 	u.Timeout = 60
