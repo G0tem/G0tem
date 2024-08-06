@@ -21,6 +21,12 @@ func RunBot() {
 
 	updates, err := bot.GetUpdatesChan(u)
 
+	if err != nil {
+		// Обработка ошибки здесь
+		log.Println("Ошибка при получении обновлений:", err)
+		return
+	}
+
 	for update := range updates {
 		if update.Message == nil { // пропускаем любые несообщения обновления
 			continue
