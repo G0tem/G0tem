@@ -26,7 +26,7 @@ var albums = []album{
 
 func main() {
 	fmt.Println(g0tem.MyHouse())
-	bot.RunBot()
+	go bot.RunBot()
 	router := gin.Default()
 	router.GET("/albums", getAlbums)
 	router.GET("/albums/:id", getAlbumByID)
