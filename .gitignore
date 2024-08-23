@@ -1,5 +1,8 @@
-# Игнорировать папку grafana
-grafana
-
 # Игнорировать .env
 .env
+
+# Игнорировать influx.env
+influx.env
+
+# Игнорировать base
+base

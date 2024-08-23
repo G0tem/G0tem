@@ -5,23 +5,46 @@ networks:
     driver: bridge
 
 services:
- grafana:
-   image: grafana/grafana
-   user: root
-   restart: always
-   ports:
-     - 3000:3000
-   volumes:
-     - ./grafana:/var/lib/grafana
-     - ./grafana/provisioning/:/etc/grafana/provisioning/
-   container_name: grafana
-   hostname: grafana
-   environment:
-     TZ: "Europe/Moscow"
-     GF_SECURITY_ALLOW_EMBEDDING: "true"
-     GF_AUTH_ANONYMOUS_ENABLED: "true"
-     GF_SERVER_ROOT_URL: "http://87.242.100.111:3000"
-     GF_SERVER_DOMAIN: 87.242.100.111
-     GF_SERVER_SERVE_FROM_SUB_PATH: "true"
-   networks:
-     - app_network
+  grafana:
+    image: grafana/grafana
+    user: root
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - ./base/grafana:/var/lib/grafana
+      - ./base/grafana/provisioning/:/etc/grafana/provisioning/
+    container_name: grafana
+    hostname: grafana
+    environment:
+      TZ: "Europe/Moscow"
+      GF_SECURITY_ALLOW_EMBEDDING: "true"
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+    networks:
+      - app_network
+
+  influxdb:
+    image: influxdb
+    container_name: influxdb
+    env_file:
+      - influx.env
+    volumes:
+      - ./base/influx:/var/lib/influxdb2:rw
+    ports:
+      - "8086:8086"
+    networks:
+      - app_network
+
+  telegraf:
+    image: telegraf
+    container_name: telegraf
+    depends_on:
+      - influxdb
+    volumes:
+      - ./base/telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+    env_file:
+      - influx.env
+    networks:
+      - app_network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
