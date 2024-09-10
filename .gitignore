@@ -5,4 +5,6 @@
 influx.env
 
 # Игнорировать base
-base
+base/*
+!base/.gitkeep
+!base/
