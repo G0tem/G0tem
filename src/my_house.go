@@ -1,4 +1,4 @@
-package g0tem
+package house
 
 // MyHouse returns "YES"
 func MyHouse() string {

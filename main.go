@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"os"
 
-	g0tem "github.com/G0tem/G0tem/G0tem"
 	bot "github.com/G0tem/G0tem/bot"
+	house "github.com/G0tem/G0tem/src"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
@@ -39,7 +39,7 @@ func main() {
 
 	// логика бота
 	go bot.RunBot()
-	fmt.Println(g0tem.MyHouse())
+	fmt.Println(house.MyHouse())
 	router := gin.Default()
 	router.GET("/albums", getAlbums)
 	router.GET("/albums/:id", getAlbumByID)
