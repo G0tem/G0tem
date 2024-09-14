@@ -8,7 +8,7 @@ import (
 	"os"
 
 	bot "github.com/G0tem/G0tem/bot"
-	house "github.com/G0tem/G0tem/src"
+	house "github.com/G0tem/G0tem/src/house_logic"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
