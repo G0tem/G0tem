@@ -8,3 +8,6 @@ influx.env
 base/*
 !base/.gitkeep
 !base/
+
+# Игнорировать configs/alertmanager
+configs/alertmanager.yml
