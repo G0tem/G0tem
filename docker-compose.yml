@@ -95,3 +95,107 @@ services:
       - ./base/postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+
+  prometheus:
+    image: prom/prometheus:v2.42.0
+    ports:
+      - "9090:9090"
+    # Change 127.0.0.1 to ip address of node where docker satck is deployed     
+    command: 
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus" 
+      - "--web.external-url=http://127.0.0.1:9090"
+      - "--web.console.libraries=/usr/share/prometheus/console_libraries" 
+      - "--web.console.templates=/usr/share/prometheus/consoles"
+    volumes:
+      - ./base/prom-data:/prometheus
+      - ./configs/prometheus/alert_rules.yml:/etc/prometheus/alert_rules.yml
+      - ./configs/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - app_network
+      
+
+  alertmanager:
+    image: prom/alertmanager:v0.25.0
+    ports:
+      - "9093:9093"
+    # Change 127.0.0.1 to ip address of node where docker satck is deployed 
+    command: 
+      - "--config.file=/etc/alertmanager/alertmanager.yml"
+      - "--storage.path=/alertmanager" 
+      - "--web.external-url=http://127.0.0.1:9093"      
+    volumes:
+      - ./base/alert-data:/alertmanager
+      - ./configs/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+      - ./configs/myorg.tmpl:/etc/alertmanager/templates/myorg.tmpl
+    networks:
+      - app_network
+      
+
+  node-exporter:
+    image: prom/node-exporter:v1.5.0
+    container_name: node-exporter1
+    ports:
+      - "9100:9100"
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude'
+      - '^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)'
+    networks:
+      - app_network
+      
+      
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:v0.47.0
+    container_name: cadvisor1
+    ports:
+    - 8080:8080
+    volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
+    networks:
+      - app_network
+      
+
+# volumes:
+#   postgres_data:
+#     driver: local
+#     driver_opts:
+#       type: none
+#       device: /home/gotem/main/job/project/g0/G0tem/base/postgres_data
+#       o: bind
+
+#   pgadmin_data:
+#     driver: local
+#     driver_opts:
+#       type: none
+#       device: /home/gotem/main/job/project/g0/G0tem/base/pgadmin_data
+#       o: bind
+
+#   influx_data:
+#     driver: local
+#     driver_opts:
+#       type: none
+#       device: /home/gotem/main/job/project/g0/G0tem/base/influx
+#       o: bind
+
+#   prom-data:
+#     driver: local
+#     driver_opts:
+#       type: none
+#       device: /home/gotem/main/job/project/g0/G0tem/base/prom-data
+#       o: bind
+
+#   alert-data:
+#     driver: local
+#     driver_opts:
+#       type: none
+#       device: /home/gotem/main/job/project/g0/G0tem/base/alert-data
+#       o: bind
