@@ -1,0 +1,27 @@
+{{ define "alert_list_error" }}{{ range . }}
+Содержание:
+- Название: {{ .Labels.alertname }}
+- Устройство: {{ .Labels.name }}
+Аннотации:
+Оповещении о внештатной ситуации!
+{{ if gt (len .DashboardURL) 0 }}Дашборд: {{ .DashboardURL }}{{ end }}
+{{ if gt (len .PanelURL) 0 }}Панель: {{ .PanelURL }}
+{{ end }}{{ end }}{{ end }}
+
+
+{{ define "alert_list_resolved" }}{{ range . }}
+Содержание:
+- Название: {{ .Labels.alertname }}
+- Устройство: {{ .Labels.name }}
+Аннотации:
+Оповещении о решенной проблеме!
+{{ if gt (len .DashboardURL) 0 }}Дашборд: {{ .DashboardURL }}{{ end }}
+{{ if gt (len .PanelURL) 0 }}Панель: {{ .PanelURL }}
+{{ end }}{{ end }}{{ end }}
+
+
+{{ define "tgshort" }}{{ if gt (len .Alerts.Firing) 0 }}🔥 <b>Ошибка</b>
+{{ template "alert_list_error" .Alerts.Firing }}{{ if gt (len .Alerts.Resolved) 0 }}
+
+{{ end }}{{ end }}{{ if gt (len .Alerts.Resolved) 0 }}✅ <b>Исправлено</b>
+{{ template "alert_list_resolved" .Alerts.Resolved }}{{ end }}{{ end }}
