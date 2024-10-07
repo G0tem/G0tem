@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
@@ -30,16 +31,34 @@ var albums = []album{
 
 func main() {
 	// Функция логики работы с бд
-	go logic_DB()
+	// go logic_DB()
+
+	db := db_connect()
 
 	// логика бота
 	go bot.RunBot()
 
 	fmt.Println(house.MyHouse())
+
 	router := gin.Default()
+
 	router.GET("/albums", getAlbums)
 	router.GET("/albums/:id", getAlbumByID)
 	router.POST("/albums", postAlbums)
+
+	// Определяем endpoint для получения записи
+	router.GET("/getdb", func(c *gin.Context) {
+		// Выполняем запрос к базе данных
+		var record string
+		err := db.QueryRow("SELECT name FROM first_table WHERE name = $1", "Юра").Scan(&record)
+		if err != nil {
+			c.JSON(500, gin.H{"error": "Record not found"})
+			return
+		}
+
+		// Возвращаем запись в формате JSON
+		c.JSON(200, gin.H{"record": record})
+	})
 
 	router.Run("localhost:8080")
 }
@@ -92,4 +111,24 @@ func logic_DB() {
 
 	bd_logic.Logic_postgres(user, password, dbname)
 
+}
+
+func db_connect() *sql.DB {
+	// загрузка переменных
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Ошибка при загрузке переменных окружения из файла .env")
+	}
+	user := os.Getenv("POSTGRES_USER")
+	password := os.Getenv("POSTGRES_PASSWORD")
+	dbname := os.Getenv("POSTGRES_DB")
+
+	// подключение к бд
+	connStr := fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", user, password, dbname)
+	db, err := sql.Open("postgres", connStr)
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+	return db
 }
