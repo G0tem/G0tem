@@ -1,5 +1,6 @@
 # Игнорировать .env
 .env
+app.env
 
 # Игнорировать influx.env
 influx.env
