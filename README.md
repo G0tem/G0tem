@@ -4,7 +4,7 @@ I'm Yuri
 
 My stack:  
 Backend: Python, Golang, Fastapi, REST, NGINX, sqlalchemy, pydantic, alembic, celery, Fider, GORM.  
-Databases: PostgreSQL, Influxdb, Redis  
-Testing: Pytest, testing  
-DevOps: Git, Linux, Docker, Grafana, Prometheus  
-ML: Pandas, Numpy  
+Databases: PostgreSQL, Influxdb, Redis.    
+Testing: Pytest, testing.      
+DevOps: Git, Linux, Docker, Grafana, Prometheus.    
+ML: Pandas, Numpy.    
