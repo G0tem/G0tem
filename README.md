@@ -6,5 +6,4 @@ My stack:
 Backend: Go, Fider, gorm, WS-gorilla, rabbitmq, Python, Fastapi, sqlalchemy, pydantic, alembic, celery, REST.    
 Databases: PostgreSQL, Influxdb, Redis, MongoDB.  
 Testing: testing, Pytest.      
-DevOps: Git, Linux, Docker, Grafana, Prometheus, Traefik.    
-ML: Pandas, Numpy.    
+DevOps: Git, Linux, Docker, Grafana, Prometheus, Traefik.     
